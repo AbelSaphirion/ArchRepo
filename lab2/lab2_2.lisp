@@ -32,12 +32,8 @@
 
 (let ((times '(100000 1000000 1500000 2000000 2250000 2500000)))
   (export-csv
-   `(times
-     ("With Recursion" ,(mapcar (lambda (x) (timewatch (fast-expt 3 x)))
-                                times))
-     ("With Tail Recursion" ,(mapcar (lambda (x) (timewatch (expt2 3 x)))
-                                     times))
-     ("Fast Expt" ,(mapcar (lambda (x) (timewatch (expt1 3 x)))
-                           times))
-     ,(list ()))
+   (list (append '("Method") times)
+         (append '("Recursion") (mapcar (lambda (x) (timewatch (expt1 3 x))) times))
+         (append '("Tail Recursion") (mapcar (lambda (x) (timewatch (expt2 3 x))) times))
+         (append '("Fast Expt") (mapcar (lambda (x) (timewatch (fast-expt 3 x))) times)))
    "test.csv"))
