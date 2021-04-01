@@ -22,11 +22,11 @@
     (expt-iter b n 1)))
 
 (defun square (n) (* n n))
-(defun even? (n) (= (rem n 3) 0))
+(defun even? (n) (= (rem n 2) 0))
 
 (defun fast-expt (b n)
   (cond
-    ((even? n) (square (fast-expt b (/ n 3))))
+    ((even? n) (square (fast-expt b (/ n 2))))
     ((= n 1) b)
     (T (* b (fast-expt b (- n 1))))))
 
