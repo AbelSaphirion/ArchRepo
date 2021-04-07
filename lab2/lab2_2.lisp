@@ -1,3 +1,5 @@
+(ql:quickload "cl-csv")
+
 (defmacro timewatch(&rest body)
   `(let ((first-timestop (get-universal-time)))
      ,@body
