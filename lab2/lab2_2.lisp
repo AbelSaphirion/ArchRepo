@@ -1,9 +1,15 @@
-(ql:quickload "cl-csv")
+(require "cl-csv")
 
 (defmacro timewatch(&rest body)
   `(let ((first-timestop (get-universal-time)))
      ,@body
      (- (get-universal-time) first-timestop)))
+
+(defmacro write-line-sym(&rest body)
+  `(let ((ret ,@body))
+     (write ret)
+     (terpri)
+     ret))
 
 (defun export-csv (row-data file)
   (with-open-file (stream file :direction :output)
@@ -32,10 +38,10 @@
     ((= n 1) b)
     (T (* b (fast-expt b (- n 1))))))
 
-(let ((times '(100000 1000000 1500000 2000000 2250000 2500000)))
+(let ((times '(100000 200000 300000 500000 1000000 1500000)))
   (export-csv
    (list (append '("Method") times)
-         (append '("Recursion") (mapcar (lambda (x) (timewatch (expt1 3 x))) times))
-         (append '("Tail Recursion") (mapcar (lambda (x) (timewatch (expt2 3 x))) times))
-         (append '("Fast Expt") (mapcar (lambda (x) (timewatch (fast-expt 3 x))) times)))
-   "test.csv"))
+         (append '("Recursion") (mapcar (lambda (x) (write-line-sym (timewatch (expt1 3 x)))) times))
+         (append '("Tail Recursion") (mapcar (lambda (x) (write-line-sym (timewatch (expt2 3 x)))) times))
+         (append '("Fast Expt") (mapcar (lambda (x) (write-line-sym (timewatch (fast-expt 3 x)))) times)))
+   "test2.csv"))

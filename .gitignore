@@ -1,3 +1,4 @@
 .#*
 *.csv
 *.lx64fsl
+*.fasl
